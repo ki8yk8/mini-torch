@@ -11,6 +11,7 @@ EPOCHS = 15
 
 # model = lambda x1, x2: w1 * x1 + w2 * x2 + b
 model = Neuron(in_features=2, bias=True)
+print(model.parameters())
 
 losses = []
 for i in range(EPOCHS):
@@ -21,13 +22,6 @@ for i in range(EPOCHS):
 		loss.backward()
 		
 		total_loss += loss.data
-		# print(w1.grad, w2.grad, b.grad)
-
-		# w1.data -= lr * w1.grad
-		# w2.data -= lr * w2.grad
-		# b.data -= lr * b.grad
-
-		# w1.grad = w2.grad = b.grad = 0
 
 	losses.append(total_loss)
 

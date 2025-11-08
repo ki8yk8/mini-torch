@@ -23,6 +23,9 @@ class Neuron:
 
 		return params
 	
+	def __repr__(self):
+		return f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})"
+	
 class Linear:
 	def __init__(self, in_features, out_features, bias=True):
 		self.neurons = [Neuron(in_features=in_features, bias=bias) for _ in range(out_features)]
@@ -36,3 +39,6 @@ class Linear:
 		for n in self.neurons:
 			params = [*params, *n.parameters()]
 		return params
+	
+	def __repr__(self):
+		return f"Linear(in_features={len(self.neurons[0].weights)}, out_features={len(self.neurons)}, bias={'True' if self.neurons[0].bias else 'False'})"

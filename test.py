@@ -9,6 +9,7 @@ lr = 0.1
 EPOCHS = 15
 
 model = Linear(in_features=2, out_features=1)
+print(model)
 optimizer = GD(model.parameters(), lr=lr)
 
 losses = []

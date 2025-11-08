@@ -19,3 +19,30 @@ def sin(x):
 	result._backward = _backward
 
 	return result
+
+def cos(x):
+	result = Value(math.cos(x.data), _child=(x), _op="cos")
+
+	def _backward():
+		x.grad += result.grad * -math.sin(x.data)
+	
+	result._backward = _backward
+	return result
+
+def tan(x):
+	result = Value(math.tan(x.data), _child=(x), _op="tan")
+
+	def _backward():
+		x.grad += result.grad * 1/(math.cos(x.data)**2)
+	
+	result._backward = _backward
+	return result
+
+def exp(x):
+	result = Value(math.exp(x.data), _child=(x), _op="e")
+
+	def _backward():
+		x.grad += result.grad * math.exp(x.data)
+	
+	result.exp = _backward
+	return result

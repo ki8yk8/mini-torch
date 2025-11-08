@@ -54,33 +54,6 @@ class Value:
 		result._backward = _backward
 		return result
 		
-	def cos(self):
-		result = Value(math.cos(self), _child=(self), _op="cos")
-
-		def _backward():
-			self.grad += result.grad * -math.sin(self.data)
-		
-		result._backward = _backward
-		return result
-	
-	def tan(self):
-		result = Value(math.tan(self), _child=(self), _op="tan")
-
-		def _backward():
-			self.grad += result.grad * 1/(math.cos(self.data)**2)
-		
-		result._backward = _backward
-		return result
-	
-	def exp(self):
-		result = Value(math.exp(self.data), _child=(self), _op="e")
-
-		def _backward():
-			self.grad += result.grad * math.exp(self.data)
-		
-		result.exp = _backward
-		return result
-
 	def __repr__(self):
 		return f"Value({self.data:.4f}, grad={self.grad:.4f})"
 	

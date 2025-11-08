@@ -1,6 +1,13 @@
 from .autograd import Value
 import random
 
+class Module:
+	def forward(self):
+		return None
+
+	def __call__(self, *x, **y):
+		self.forward(*x, **y)
+
 class Neuron:
 	def __init__(self, in_features, bias=True):
 		self.weights = [Value(random.uniform(-1, 1)) for _ in range(in_features)]

@@ -1,36 +1,46 @@
 from minitorch.autograd import Value
-from minitorch.nn import Neuron, Linear
+from minitorch.nn import Neuron, Linear, Module
 from minitorch.optimizers import GD
 import matplotlib.pyplot as plt
 
-inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
-outputs = [0, 0, 0, 1]
-lr = 0.1
-EPOCHS = 15
+class Model(Module):
+	def __init__(self):
+		pass
 
-model = Linear(in_features=2, out_features=1)
-print(model)
-optimizer = GD(model.parameters(), lr=lr)
+	def forward(self, x, y, z):
+		print(x, y, z)
 
-losses = []
-for i in range(EPOCHS):
-	total_loss = 0
-	for x, actual in zip(inputs, outputs):
-		predicted = model(x)[0]
-		loss = (predicted-actual)**2
-		loss.backward()
+model = Model()
+model(1, 2, z=3)
 
-		optimizer.step()
-		optimizer.zero_grad()
+# inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
+# outputs = [0, 0, 0, 1]
+# lr = 0.1
+# EPOCHS = 15
 
-		total_loss += loss.data
+# model = Linear(in_features=2, out_features=1)
+# print(model)
+# optimizer = GD(model.parameters(), lr=lr)
 
-	losses.append(total_loss)
+# losses = []
+# for i in range(EPOCHS):
+# 	total_loss = 0
+# 	for x, actual in zip(inputs, outputs):
+# 		predicted = model(x)[0]
+# 		loss = (predicted-actual)**2
+# 		loss.backward()
 
-print(model((0, 0))[0].data > 0.5)
-print(model((0, 1))[0].data > 0.5)
-print(model((1, 0))[0].data > 0.5)
-print(model((1, 1))[0].data > 0.5)
+# 		optimizer.step()
+# 		optimizer.zero_grad()
 
-plt.plot(range(EPOCHS), losses)
-plt.show()
+# 		total_loss += loss.data
+
+# 	losses.append(total_loss)
+
+# print(model((0, 0))[0].data > 0.5)
+# print(model((0, 1))[0].data > 0.5)
+# print(model((1, 0))[0].data > 0.5)
+# print(model((1, 1))[0].data > 0.5)
+
+# plt.plot(range(EPOCHS), losses)
+# plt.show()

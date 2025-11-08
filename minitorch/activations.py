@@ -18,7 +18,7 @@ def Sigmoid(x):
 	result = Value(sigmoid(x.data), _child=(x,), _op="sigmoid")
 
 	def _backward():
-		x.grad += result.grad * sigmoid(x.data)/(1-sigmoid(x.data))
+		x.grad += result.grad * sigmoid(x.data) * (1-sigmoid(x.data))
 
 	result._backward = _backward
 	return result

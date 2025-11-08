@@ -21,19 +21,7 @@ class Value:
 		return result
 
 	def __truediv__(self, other):
-		other = other if isinstance(other, Value) else Value(other)
-		result = Value(self.data/other.data if other.data != 0 else 0, _child=(self, other), _op="/")
-
-		def _backward():
-			if other.data == 0:
-				self.grad += 0
-				other.grad += 0
-			else:
-				self.grad += result.grad * other.data/other.data**2
-				other.grad += result.grad * -self.data/other.data**2
-
-		result._backward = _backward
-		return result
+		return self*other**-1
 	
 	def __add__(self, other):
 		other = other if isinstance(other, Value) else Value(other)

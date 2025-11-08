@@ -1,5 +1,5 @@
 from minitorch.autograd import Value
-from minitorch.activations import ReLU
+from minitorch.activations import ReLU, Sigmoid
 import matplotlib.pyplot as plt
 
 inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
@@ -8,7 +8,8 @@ lr = 0.1
 
 w1, w2, b = Value(1.0), Value(-1.0), Value(2.0)
 
-model = lambda x1, x2: w1 * x1 + w2 * x2 + b
+model = lambda x1, x2: Sigmoid(w1 * x1 + w2 * x2 + b)
+# model = lambda x1, x2: ReLU(w1 * x1 + w2 * x2 + b)
 
 total_loss = 0
 for [x1, x2], actual in zip(inputs, outputs):

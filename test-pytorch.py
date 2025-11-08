@@ -8,7 +8,8 @@ w1 = torch.tensor(1.0, requires_grad=True)
 w2 = torch.tensor(-1.0, requires_grad=True)
 b = torch.tensor(2.0, requires_grad=True)
 
-model = lambda x1, x2: w1 * x1 + w2 * x2 + b
+model = lambda x1, x2: torch.sigmoid(w1 * x1 + w2 * x2 + b)
+# model = lambda x1, x2: torch.relu(w1 * x1 + w2 * x2 + b)
 
 total_loss = 0
 for [x1, x2], actual in zip(inputs, outputs):

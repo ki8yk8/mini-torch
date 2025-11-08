@@ -1,5 +1,6 @@
 from minitorch.autograd import Value
 from minitorch.nn import Neuron
+from minitorch.optimizers import GD
 import matplotlib.pyplot as plt
 
 inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
@@ -7,11 +8,8 @@ outputs = [0, 0, 0, 1]
 lr = 0.1
 EPOCHS = 15
 
-# w1, w2, b = Value(2.0), Value(-1.0), Value(2.0)
-
-# model = lambda x1, x2: w1 * x1 + w2 * x2 + b
 model = Neuron(in_features=2, bias=True)
-print(model.parameters())
+optimizer = GD(model.parameters(), lr=lr)
 
 losses = []
 for i in range(EPOCHS):
@@ -20,7 +18,10 @@ for i in range(EPOCHS):
 		predicted = model(x)
 		loss = (predicted-actual)**2
 		loss.backward()
-		
+
+		optimizer.step()
+		optimizer.zero_grad()
+
 		total_loss += loss.data
 
 	losses.append(total_loss)

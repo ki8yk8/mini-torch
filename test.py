@@ -6,19 +6,19 @@ import matplotlib.pyplot as plt
 data = [[0, 0], [0, 1], [1, 0], [1, 1]]
 xor = [0, 0, 0, 1]
 
-lr = 2
-EPOCHS = 1
+lr = 1
+EPOCHS = 40
 
-w1, w2, b = Value(200), Value(300), Value(10)
-history = {
-	"w1": [w1],
-	"w2": [w2],
-	"b": [b],
-}
+w1, w2, b = Value(0), Value(-1), Value(-1)
+# w1, w2, b = Value(1), Value(1), Value(-1)
+losses = []
 
-model = lambda x1, x2: ReLU(w1 * x1 + w2 * x2 + b)
+model = lambda x1, x2: w1 * x1 + w2 * x2 + b
 print("\nInitially")
+print(f"\tx1 = 0, x2 = 0 => {model(0, 0).data}")
+print(f"\tx1 = 0, x2 = 1 => {model(0, 1).data}")
 print(f"\tx1 = 1, x2 = 0 => {model(1, 0).data}")
+print(f"\tx1 = 1, x2 = 1 => {model(1, 1).data}")
 
 for i in range(EPOCHS):
 	for [x1, x2], actual in zip(data, xor):
@@ -35,10 +35,8 @@ for i in range(EPOCHS):
 		w1.grad = 0
 		w2.grad = 0
 		b.grad = 0
-
-	history["b"].append(b)
-	history["w1"].append(w1)
-	history["w2"].append(w2)
+	
+	losses.append(loss.data)
 
 print("\nFinally:")
 print(f"\tx1 = 0, x2 = 0 => {model(0, 0).data}")
@@ -46,7 +44,9 @@ print(f"\tx1 = 0, x2 = 1 => {model(0, 1).data}")
 print(f"\tx1 = 1, x2 = 0 => {model(1, 0).data}")
 print(f"\tx1 = 1, x2 = 1 => {model(1, 1).data}")
 
-plt.subplot(2, 2)
-plt.plot(range(EPOCHS+1), [w.data for w in history["w2"]])
+plt.plot(range(EPOCHS), losses)
+plt.title("Change of loss with epoch")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
 plt.grid()
 plt.show()

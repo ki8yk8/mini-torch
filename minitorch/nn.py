@@ -22,3 +22,17 @@ class Neuron:
 			params.append(self.bias)
 
 		return params
+	
+class Linear:
+	def __init__(self, in_features, out_features, bias=True):
+		self.neurons = [Neuron(in_features=in_features, bias=bias) for _ in range(out_features)]
+
+	def __call__(self, x):
+		return [neuron(x) for neuron in self.neurons]
+
+	def parameters(self):
+		params = []
+
+		for n in self.neurons:
+			params = [*params, *n.parameters()]
+		return params

@@ -21,14 +21,7 @@ print(f"\tv4 = {v4}")
 print(f"\tv5 = {v5}")
 
 # Reverse Mode
-v5.grad = 1
 v5.backward()
-v4.backward()
-v3.backward()
-v1.backward()
-v2.backward()
-x2.backward()
-x1.backward()
 
 print("\nReverse Mode:")
 print(f"\tx1 = {x1}")

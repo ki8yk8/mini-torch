@@ -58,4 +58,19 @@ class Value:
 		return f"Value({self.data:.4f}, grad={self.grad:.4f})"
 	
 	def backward(self):
-		self._backward()
+		# topological ordering dfs
+		visited = set()
+		topology = []
+
+		def build_topology(node):
+			if node not in visited:
+				visited.add(node)
+				for child in node._child:
+					build_topology(child)
+				topology.append(node)
+		
+		build_topology(self)
+		# seeding the gradient
+		self.grad = 1.0
+		for node in reversed(topology):
+			node._backward()

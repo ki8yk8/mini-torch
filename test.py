@@ -17,11 +17,11 @@ for [x1, x2], actual in zip(inputs, outputs):
 	loss.backward()
 	
 	total_loss += loss.data
-	print(w1.grad, w2.grad, b.grad)
+	# print(w1.grad, w2.grad, b.grad)
 
-	w1 -= lr * w1.grad
-	w2 -= lr * w2.grad
-	b -= lr * b.grad
+	w1.data -= lr * w1.grad
+	w2.data -= lr * w2.grad
+	b.data -= lr * b.grad
 
 	w1.grad = w2.grad = b.grad = 0
 

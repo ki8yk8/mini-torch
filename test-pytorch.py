@@ -17,7 +17,7 @@ for [x1, x2], actual in zip(inputs, outputs):
 	loss.backward()
 	
 	total_loss += loss.item()
-	print(w1.grad, w2.grad, b.grad)
+	# print(w1.grad, w2.grad, b.grad)
 
 	with torch.no_grad():
 		w1 -= lr * w1.grad
@@ -26,7 +26,7 @@ for [x1, x2], actual in zip(inputs, outputs):
 	
 	w1.grad = w2.grad = b.grad = None
 	
-# print(w1, w1.grad)
-# print(w2, w2.grad)
-# print(b, b.grad)
-# print(total_loss)
+print(w1, w1.grad)
+print(w2, w2.grad)
+print(b, b.grad)
+print(total_loss)

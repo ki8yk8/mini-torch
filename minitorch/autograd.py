@@ -53,6 +53,15 @@ class Value:
 		
 		result._backward = _backward
 		return result
+
+	def __pow__(self, other):
+		result = Value(self.data**other, (self,), _op=f"^{other}")
+
+		def _backward():
+			self.grad += result.grad * other * self.data**(other-1)
+		
+		result._backward = _backward
+		return result
 		
 	def __repr__(self):
 		return f"Value({self.data:.4f}, grad={self.grad:.4f})"

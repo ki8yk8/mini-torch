@@ -10,6 +10,7 @@ class Value:
 		self.grad = 0    # this is by default constant
 
 	def __mul__(self, other):
+		other = other if isinstance(other, Value) else Value(other)
 		result = Value(self.data * other.data, _child=(self, other), _op="*")
 		
 		def _backward():
@@ -20,6 +21,7 @@ class Value:
 		return result
 
 	def __truediv__(self, other):
+		other = other if isinstance(other, Value) else Value(other)
 		result = Value(self.data/other.data if other.data != 0 else 0, _child=(self, other), _op="/")
 
 		def _backward():
@@ -34,6 +36,7 @@ class Value:
 		return result
 	
 	def __add__(self, other):
+		other = other if isinstance(other, Value) else Value(other)
 		result = Value(self.data + other.data, _child=(self, other), _op="+")
 
 		def _backward():
@@ -45,6 +48,7 @@ class Value:
 		return result
 	
 	def __sub__(self, other):
+		other = other if isinstance(other, Value) else Value(other)
 		result = Value(self.data - other.data, _child=(self, other), _op="-")
 
 		def _backward():
@@ -62,7 +66,25 @@ class Value:
 		
 		result._backward = _backward
 		return result
-		
+	
+	def __neg__(self):
+		return self*-1
+	
+	# means 1 + Value(10)
+	def __radd__(self, other):
+		return self + other
+	
+	# means 1 - Value(10)
+	def __sub__(self, other):
+		return -self + other
+	
+	def __rmul__(self, other):
+		return self * other
+
+	# means other/self
+	def __rtruediv__(self, other):
+		return self**-1 * other
+
 	def __repr__(self):
 		return f"Value({self.data:.4f}, grad={self.grad:.4f})"
 	

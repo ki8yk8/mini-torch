@@ -6,7 +6,7 @@ def ReLU(x):
 	result = Value(data=relu, _child=(x,), _op="relu")
 
 	def _backward():
-		x.grad += result.grad * 0 if x.data <= 0 else 1
+		x.grad += result.grad * (0 if x.data <= 0 else 1)
 
 	result._backward = _backward
 	return result

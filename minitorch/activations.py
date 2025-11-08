@@ -3,7 +3,7 @@ import math
 
 def ReLU(x):
 	relu = 0 if x.data <= 0 else x.data
-	result = Value(data=relu, _child=(x), _op="relu")
+	result = Value(data=relu, _child=(x,), _op="relu")
 
 	def _backward():
 		x.grad += result.grad * 0 if x.data <= 0 else 1
@@ -15,7 +15,7 @@ def sigmoid(x):
 	return 1/(1+math.exp(-x))
 
 def Sigmoid(x):
-	result = Value(sigmoid(x.data), _child=(x), _op="sigmoid")
+	result = Value(sigmoid(x.data), _child=(x,), _op="sigmoid")
 
 	def _backward():
 		x.grad += result.grad * sigmoid(x.data)/(1-sigmoid(x.data))

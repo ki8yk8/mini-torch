@@ -14,4 +14,6 @@ class Model(Module):
 		return linear2
 	
 model = Model()
-print(list(model.parameters()))
+
+for params in model.parameters():
+	print()

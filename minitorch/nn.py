@@ -1,11 +1,10 @@
 from .autograd import Value
-
 import random
 
 class Module:
 	def __init__(self):
 		self._parameters = {}    # Value
-		self._modules = {}    # Linear, Neuron
+		self._modules = {}       # Linear, Neuron
 
 	def named_parameters(self):
 		pass
@@ -15,13 +14,15 @@ class Module:
 			yield param
 
 		for child in self._modules.values():
-			yield param
+			yield child.parameters()
 	
 	def __setattr__(self, name, value):
 		if isinstance(value, Value):
 			self._parameters[name] = value
 		elif isinstance(value, list):
 			self._parameters[name] = value
+		elif isinstance(value, Module):
+			self._modules[name] = value
 		
 		super().__setattr__(name, value)
 
@@ -30,6 +31,9 @@ class Module:
 
 	def __call__(self, *args, **kwargs):
 		return self.forward(*args, **kwargs)
+
+	def __repr__(self):
+		return f"{self.__class__.__name__}()"
 
 class Neuron(Module):
 	def __init__(self, in_features, bias=True):

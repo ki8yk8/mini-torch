@@ -1,33 +1,17 @@
 import torch
+from torch.nn import Module, Linear
 
-inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]
-outputs = [0, 0, 0, 1]
-lr = 0.1
+class Model(Module):
+	def __init__(self):
+		super().__init__()
+		self.linear1 = Linear(in_features=2, out_features=2, bias=True)
+		self.linear2 = Linear(in_features=2, out_features=1, bias=True)
 
-w1 = torch.tensor(1.0, requires_grad=True)
-w2 = torch.tensor(-1.0, requires_grad=True)
-b = torch.tensor(2.0, requires_grad=True)
+	def forward(self, x):
+		linear1 = self.linear1(x)
+		linear2 = self.linear2(linear1)
 
-model = lambda x1, x2: torch.sigmoid(w1 * x1 + w2 * x2 + b)
-# model = lambda x1, x2: torch.relu(w1 * x1 + w2 * x2 + b)
-
-total_loss = 0
-for [x1, x2], actual in zip(inputs, outputs):
-	predicted = model(x1, x2)
-	loss = (predicted-actual)**2
-	loss.backward()
+		return linear2
 	
-	total_loss += loss.item()
-	# print(w1.grad, w2.grad, b.grad)
-
-	with torch.no_grad():
-		w1 -= lr * w1.grad
-		w2 -= lr * w2.grad
-		b -= lr * b.grad
-	
-	w1.grad = w2.grad = b.grad = None
-	
-print(w1, w1.grad)
-print(w2, w2.grad)
-print(b, b.grad)
-print(total_loss)
+model = Model()
+print(list(model.parameters()))

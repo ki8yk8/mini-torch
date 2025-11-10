@@ -1,7 +1,8 @@
 class BaseOptimizer:
 	def zero_grad(self):
-		for p in self.parameters:
-			p.grad = 0
+		for params in self.parameters:
+			for p in params:
+				p.grad = 0
 
 class GD(BaseOptimizer):
 	def __init__(self, parameters, lr=0.1):
@@ -9,5 +10,6 @@ class GD(BaseOptimizer):
 		self.lr = lr
 
 	def step(self):
-		for p in self.parameters:
-			p.data -= self.lr * p.grad
+		for params in self.parameters:
+			for p in params:
+				p.data -= self.lr * p.grad

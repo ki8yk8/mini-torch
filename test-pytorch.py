@@ -16,4 +16,4 @@ class Model(Module):
 model = Model()
 
 for params in model.parameters():
-	print()
+	print(params)

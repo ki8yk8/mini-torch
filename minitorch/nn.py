@@ -12,6 +12,8 @@ class Module:
 	def __setattr__(self, name, value):
 		if isinstance(value, Value):
 			self._parameters[name] = value
+		elif isinstance(value, list):
+			self._parameters[name] = value
 		else:
 			super().__setattr__(name, value)
 
@@ -19,29 +21,23 @@ class Module:
 		return None
 
 	def __call__(self, *x, **y):
-		self.forward(*x, **y)
+		return self.forward(*x, **y)
 
-class Neuron:
+class Neuron(Module):
 	def __init__(self, in_features, bias=True):
+		super().__init__()
 		self.weights = [Value(random.uniform(-1, 1)) for _ in range(in_features)]
 		self.bias = Value(random.uniform(-1, 1)) if bias else None
 
-	def __call__(self, x):
-		if len(x) != len(self.weights):
+	def forward(self, x):
+		if len(x) != len(self._parameters["weights"]):
 			raise Exception(f"initialized in_features ({len(self.weights)}) not equal to provided one ({len(x)})")
 		
-		result = sum([self.weights[i]*x[i] for i in range(len(x))])
-		if self.bias:
-			result += self.bias
+		result = sum([self._parameters["weights"][i]*x[i] for i in range(len(x))])
+		if "bias" in self._parameters:
+			result += self._parameters["bias"]
 
 		return result
-
-	def parameters(self):
-		params = [*self.weights]
-		if self.bias:
-			params.append(self.bias)
-
-		return params
 	
 	def __repr__(self):
 		return f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})"

@@ -1,7 +1,20 @@
 from .autograd import Value
+
 import random
 
 class Module:
+	def __init__(self):
+		self._parameters = {}
+
+	def parameters(self):
+		return self._parameters
+	
+	def __setattr__(self, name, value):
+		if isinstance(value, Value):
+			self._parameters[name] = value
+		else:
+			super().__setattr__(name, value)
+
 	def forward(self):
 		return None
 

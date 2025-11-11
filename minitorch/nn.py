@@ -7,20 +7,26 @@ class Module:
 		self._modules = {}       # Linear, Neuron
 
 	def named_parameters(self):
-		pass
+		for name, param in self._parameters.items():
+			yield name, param
+
+		for name, module in self._modules.items():
+			for subname, param in module.named_parameters():
+				yield f"{name}.{subname}", param
 	
 	def parameters(self):
-		for param in self._parameters.values():
-			yield param
-
-		for child in self._modules.values():
-			yield child.parameters()
+		for name, params in self.named_parameters():
+			yield params
 	
 	def __setattr__(self, name, value):
 		if isinstance(value, Value):
 			self._parameters[name] = value
 		elif isinstance(value, list):
-			self._parameters[name] = value
+			for i, p in enumerate(value):
+				if isinstance(p, Value):
+					self._parameters[f"{name}.{i}"] = p
+				elif isinstance(p, Module):
+					self._modules[f"{name}.{i}"] = p
 		elif isinstance(value, Module):
 			self._modules[name] = value
 		
@@ -51,12 +57,6 @@ class Neuron(Module):
 
 		return z
 	
-	def parameters(self):
-		if (self.bias): 
-			return [*self.weights, self.bias]
-
-		return [*self.weights]
-	
 	def __repr__(self):
 		return f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})"
 	
@@ -68,12 +68,5 @@ class Linear(Module):
 	def forward(self, x):
 		return [neuron(x) for neuron in self.neurons]
 
-	def parameters(self):
-		params = []
-
-		for n in self.neurons:
-			params = [*params, *n.parameters()]
-		return params
-	
 	def __repr__(self):
 		return f"Linear(in_features={len(self.neurons[0].weights)}, out_features={len(self.neurons)}, bias={'True' if self.neurons[0].bias else 'False'})"

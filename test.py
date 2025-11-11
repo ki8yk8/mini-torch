@@ -16,12 +16,14 @@ test_x, test_y = test_df.iloc[:, test_df.columns != 0].values, test_df[0].values
 # creating the model
 class MNISTClassifier(Module):
 	def __init__(self):
+		super().__init__()
 		self.hidden = Linear(in_features=28*28, out_features=512)
 		self.output = Linear(in_features=512, out_features=10)
+		self.sigmoid = Sigmoid()
 
 	def forward(self, x):
 		x = self.hidden(x)
-		x = Sigmoid(x)
+		x = self.sigmoid(x)
 		x = self.output(x)
 
 		return x

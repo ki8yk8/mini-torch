@@ -73,9 +73,6 @@ class Neuron(Module):
 			f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})", 
 			child
 		)
-		
-	def __repr__(self):
-		return self.get_repr()
 	
 class Linear(Module):
 	def __init__(self, in_features, out_features, bias=True):
@@ -90,6 +87,3 @@ class Linear(Module):
 			f"Linear(in_features={len(self.neurons[0].weights)}, out_features={len(self.neurons)}, bias={'True' if self.neurons[0].bias else 'False'})",
 			child
 		)
-
-	def __repr__(self):
-		return self.get_repr()

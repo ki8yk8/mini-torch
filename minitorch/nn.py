@@ -1,10 +1,11 @@
 from .autograd import Value
 import random
+from collections import OrderedDict
 
 class Module:
 	def __init__(self):
-		self._parameters = {}    # Value
-		self._modules = {}       # Linear, Neuron
+		self._parameters = OrderedDict()    # Value
+		self._modules = OrderedDict()       # Linear, Neuron
 
 	def named_parameters(self):
 		for name, param in self._parameters.items():
@@ -39,7 +40,12 @@ class Module:
 		return self.forward(*args, **kwargs)
 
 	def __repr__(self):
-		return f"{self.__class__.__name__}()"
+		inner_text = ""
+
+		for name, module in self._modules.items():
+			inner_text += f"  ({name}): {module.__repr__()}\n"
+		
+		return f"{self.__class__.__name__}(\n{inner_text})"
 
 class Neuron(Module):
 	def __init__(self, in_features, bias=True):

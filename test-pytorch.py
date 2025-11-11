@@ -10,10 +10,9 @@ class Model(Module):
 	def forward(self, x):
 		linear1 = self.linear1(x)
 		linear2 = self.linear2(linear1)
+		base = torch.Tensor(2, requires_grad=True)
 
 		return linear2
 	
 model = Model()
-
-for params in model.named_parameters():
-	print(params)
+print(model)

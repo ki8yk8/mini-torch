@@ -1,4 +1,5 @@
 from .autograd import Value
+from .math import exp
 import math
 import numbers
 
@@ -58,10 +59,4 @@ class Sigmoid(Activation):
 		if isinstance(x, list):
 			return [Sigmoid()(v) for v in x]
 		
-		result = Value(sigmoid(x.data), _child=(x,), _op="sigmoid")
-
-		def _backward():
-			x.grad += result.grad * sigmoid(x.data) * (1-sigmoid(x.data))
-
-		result._backward = _backward
-		return result
+		return 1/(1+exp(-x))

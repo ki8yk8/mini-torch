@@ -44,5 +44,5 @@ def exp(x):
 	def _backward():
 		x.grad += result.grad * math.exp(x.data)
 	
-	result.exp = _backward
+	result._backward = _backward
 	return result

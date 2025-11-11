@@ -1,3 +1,5 @@
+from .activations import LogSoftmax
+
 class Loss:
 	def __init__(self):
 		pass
@@ -24,3 +26,30 @@ class MSE(Loss):
 		squared_error = [(o-a)**2 for o, a in zip(output, actual)]
 		
 		return sum(squared_error)/len(squared_error)
+
+class NLL(Loss):
+	def __init__(self):
+		pass
+
+	def __call__(self, output, actual):
+		output, actual = self.sanitize(output, actual)
+
+		# NLL = -log(p_y)
+		correct_index = actual.index(1)
+				
+		if not correct_index:
+			raise("There should be one positive target per sample")
+		
+		return -output[correct_index]
+
+class CrossEntropy(Loss):
+	def __init__(self):
+		self.log_softmax = LogSoftmax(stability=True)
+
+	def __call__(self, output, actual):
+		output, actual = self.sanitize(output, actual)
+		log_probs = self.log_softmax(output)
+		
+		return NLL()(log_probs, actual)
+
+

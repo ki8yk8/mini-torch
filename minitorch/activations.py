@@ -1,5 +1,5 @@
 from .autograd import Value
-from .math import exp
+from .math import exp, log
 import math
 import numbers
 
@@ -71,3 +71,14 @@ class Softmax(Activation):
 		probability = [e/sum(exponents) for e in exponents]
 		
 		return probability
+
+class LogSoftmax(Activation):
+	def __init__(self, stability=True):
+		super().__init__()
+		self.stability = stability
+
+	def __call__(self, X):
+		max_x = max(X) if self.stability else 0
+		exponents = [exp(x-max_x) for x in X]
+
+		return [x - max_x - log(sum(exponents)) for x in X]

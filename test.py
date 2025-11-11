@@ -1,4 +1,5 @@
 from minitorch.nn import Module, Linear, Neuron
+from minitorch.activations import ReLU
 from minitorch.autograd import Value
 from minitorch.optimizers import GD
 import matplotlib.pyplot as plt
@@ -19,6 +20,7 @@ class Model(Module):
 
 	def forward(self, x):
 		op = self.linear1(x)
+		op = ReLU(op)
 		op = self.linear2(op)
 		op = self.neuron(op)
 		op += self.bias

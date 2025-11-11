@@ -60,3 +60,14 @@ class Sigmoid(Activation):
 			return [Sigmoid()(v) for v in x]
 		
 		return 1/(1+exp(-x))
+
+class Softmax(Activation):
+	def __init__(self, temperature=1.0):
+		self.T = temperature
+		pass
+
+	def __call__(self, x):
+		exponents = [exp(i/self.T) for i in x]
+		probability = [e/sum(exponents) for e in exponents]
+		
+		return probability

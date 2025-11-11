@@ -1,5 +1,7 @@
 """Implements training on MNIST dataset using minitorch"""
 import pandas as pd
+from minitorch.nn import Linear, Module
+from minitorch.activations import Sigmoid
 
 train_df = pd.read_csv("./dataset/mnist_train.csv", header=None)
 test_df = pd.read_csv("./dataset/mnist_test.csv", header=None)
@@ -10,3 +12,19 @@ print(f"Loaded test dataset with size = {len(test_df)}\n")
 # getting the x, y for train and test
 train_x, train_y = train_df.iloc[:, train_df.columns != 0].values, train_df[0].values
 test_x, test_y = test_df.iloc[:, test_df.columns != 0].values, test_df[0].values
+
+# creating the model
+class MNISTClassifier(Module):
+	def __init__(self):
+		self.hidden = Linear(in_features=28*28, out_features=512)
+		self.output = Linear(in_features=512, out_features=10)
+
+	def forward(self, x):
+		x = self.hidden(x)
+		x = Sigmoid(x)
+		x = self.output(x)
+
+		return x
+	
+model = MNISTClassifier()
+print(model)

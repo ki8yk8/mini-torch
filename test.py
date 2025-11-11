@@ -1,7 +1,7 @@
 from minitorch.autograd import Value
 from minitorch.activations import ReLU
 from minitorch.nn import Module, Linear, Neuron
-
+from minitorch.helpers import add_indent
 
 # xor gate
 inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]

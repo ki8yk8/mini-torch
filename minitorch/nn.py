@@ -1,6 +1,8 @@
-from .autograd import Value
 import random
 from collections import OrderedDict
+
+from .autograd import Value
+from .helpers import add_indent
 
 class Module:
 	def __init__(self):
@@ -39,13 +41,16 @@ class Module:
 	def __call__(self, *args, **kwargs):
 		return self.forward(*args, **kwargs)
 
-	def __repr__(self):
+	def get_repr(self, child=0):
 		inner_text = ""
 
 		for name, module in self._modules.items():
-			inner_text += f"  ({name}): {module.__repr__()}\n"
+			inner_text += add_indent(f"({name}): {module.get_repr(child+1)}\n", 2*(child+1))
 		
-		return f"{self.__class__.__name__}(\n{inner_text})"
+		return f"{self.__class__.__name__}(\n{inner_text}"+add_indent(")", 2*child)
+
+	def __repr__(self):
+		return self.get_repr()
 
 class Neuron(Module):
 	def __init__(self, in_features, bias=True):
@@ -63,8 +68,14 @@ class Neuron(Module):
 
 		return z
 	
+	def get_repr(self, child=0):
+		return add_indent(
+			f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})", 
+			child
+		)
+		
 	def __repr__(self):
-		return f"Neuron(in_features={len(self.weights)}, bias={'True' if self.bias else 'False'})"
+		return self.get_repr()
 	
 class Linear(Module):
 	def __init__(self, in_features, out_features, bias=True):
@@ -74,5 +85,11 @@ class Linear(Module):
 	def forward(self, x):
 		return [neuron(x) for neuron in self.neurons]
 
+	def get_repr(self, child=0):
+		return add_indent(
+			f"Linear(in_features={len(self.neurons[0].weights)}, out_features={len(self.neurons)}, bias={'True' if self.neurons[0].bias else 'False'})",
+			child
+		)
+
 	def __repr__(self):
-		return f"Linear(in_features={len(self.neurons[0].weights)}, out_features={len(self.neurons)}, bias={'True' if self.neurons[0].bias else 'False'})"
+		return self.get_repr()

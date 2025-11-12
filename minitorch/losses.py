@@ -9,7 +9,7 @@ class Loss:
 		# and the length of list should be equal
 		if isinstance(output, list):
 			if not isinstance(actual, list):
-				raise("Output and Actual must be of type list")
+				raise Exception("Output and Actual must be of type list")
 			if not len(output) == len(actual):
 				raise("Length of output, and actual must be equal")
 		else:

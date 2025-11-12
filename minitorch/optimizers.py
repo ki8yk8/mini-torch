@@ -5,7 +5,7 @@ class BaseOptimizer:
 
 class GD(BaseOptimizer):
 	def __init__(self, parameters, lr=0.1):
-		self.parameters = parameters
+		self.parameters = list(parameters)
 		self.lr = lr
 
 	def step(self):

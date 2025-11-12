@@ -3,7 +3,7 @@ from minitorch.losses import MSE
 from minitorch.optimizers import GD
 
 LR = 0.1
-EPOCHS = 100
+EPOCHS = 4
 
 y = lambda x : 2*x+3
 train_x, test_x = [x for x in range(0, 20, 2)], [x for x in range(5, 15, 3)]

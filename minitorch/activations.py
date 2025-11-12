@@ -1,25 +1,22 @@
 from .autograd import Value
 from .math import exp, log
+from .nn import Module
 import math
 import numbers
 
-class Activation:
-	def __init__(self):
-		pass
+def sanitize(x):
+	sanitized = None
 
-	def sanitize(self, x):
-		sanitized = None
+	if isinstance(x, list):
+		sanitized = x
+	elif isinstance(x, numbers.Number):
+		sanitized = Value(x)
+	elif isinstance(x, Value):
+		sanitized = x
+	else:
+		raise("Unknown datatype received in activation")
 
-		if isinstance(x, list):
-			sanitized = x
-		elif isinstance(x, numbers.Number):
-			sanitized = Value(x)
-		elif isinstance(x, Value):
-			sanitized = x
-		else:
-			raise("Unknown datatype received in activation")
-
-		return sanitized
+	return sanitized
 
 def sigmoid(x):
 	if isinstance(x, Value):
@@ -33,13 +30,15 @@ def relu(x):
 
 	return max(0, x)
 
-class ReLU(Activation):
+class ReLU(Module):
 	def __init__(self):
 		super().__init__()
 
-
-	def __call__(self, x):
-		x = self.sanitize(x)
+	def get_repr(self, child):
+		return "ReLU()"
+	
+	def forward(self, x):
+		x = sanitize(x)
 
 		if isinstance(x, list):
 			return [ReLU()(v) for v in x]
@@ -52,8 +51,14 @@ class ReLU(Activation):
 		result._backward = _backward
 		return result
 
-class Sigmoid(Activation):
-	def __call__(self, x):
+class Sigmoid(Module):
+	def __init__(self):
+		super().__init__()
+
+	def get_repr(self, child=0):
+		return "Sigmoid()"
+	
+	def forward(self, x):
 		x = self.sanitize(x)
 
 		if isinstance(x, list):
@@ -64,23 +69,29 @@ class Sigmoid(Activation):
 		else:
 			return exp(-x)/(1+exp(-x))
 
-class Softmax(Activation):
+class Softmax(Module):
 	def __init__(self, temperature=1.0):
+		super().__init__()
 		self.T = temperature
-		pass
 
-	def __call__(self, x):
+	def get_repr(self, _):
+		return f"Softmax(temperature={self.T})"
+
+	def forward(self, x):
 		exponents = [exp(i/self.T) for i in x]
 		probability = [e/sum(exponents) for e in exponents]
 		
 		return probability
 
-class LogSoftmax(Activation):
+class LogSoftmax(Module):
 	def __init__(self, stability=True):
 		super().__init__()
 		self.stability = stability
 
-	def __call__(self, X):
+	def get_repr(self, _):
+		return f"LogSoftmax(stability={self.stability})"
+
+	def forward(self, X):
 		max_x = max(X) if self.stability else 0
 		exponents = [exp(x-max_x) for x in X]
 

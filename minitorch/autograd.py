@@ -92,6 +92,10 @@ class Value:
 	def __ge__(self, other):
 		return self.data >= other.data
 	
+	def __hash__(self):
+		# this is defined because when __eq__ was define it cleared __hash__ to avoid inconsistent hashing 
+		return id(self)
+	
 	def backward(self):
 		# topological ordering dfs
 		visited = set()

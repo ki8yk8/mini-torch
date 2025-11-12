@@ -66,7 +66,7 @@ class Neuron(Module):
 		if self.bias:
 			z += self.bias
 
-		return z
+		return [z]
 	
 	def get_repr(self, child=0):
 		return add_indent(
@@ -80,7 +80,7 @@ class Linear(Module):
 		self.neurons = [Neuron(in_features=in_features, bias=bias) for _ in range(out_features)]
 
 	def forward(self, x):
-		return [neuron(x) for neuron in self.neurons]
+		return [neuron(x)[0] for neuron in self.neurons]
 
 	def get_repr(self, child=0):
 		return add_indent(

@@ -15,6 +15,16 @@ print(f"Loaded test dataset with size = {len(test_df)}\n")
 train_x, train_y = train_df.iloc[:, train_df.columns != 0].values, train_df[0].values
 test_x, test_y = test_df.iloc[:, test_df.columns != 0].values, test_df[0].values
 
+# normalizing the train and test x
+def normalize(X):
+	return [[float(x)/255 for x in item] for item in X]
+
+train_x, test_x = normalize(train_x), normalize(test_x)
+
+# hyperparameters
+LR = 0.1
+EPOCH = 10
+
 # creating the model
 class MNISTClassifier(Module):
 	def __init__(self):
@@ -31,6 +41,6 @@ class MNISTClassifier(Module):
 		return x
 	
 model = MNISTClassifier()
+print(model)
 
-output = model([1 for i in range(28*28)])
-print(output)
+print(test_x[0])

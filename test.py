@@ -2,14 +2,14 @@ from minitorch.nn import Module, Linear, Neuron
 from minitorch.losses import MSE
 from minitorch.optimizers import GD
 
-LR = 0.1
-EPOCHS = 4
+LR = 0.001
+EPOCHS = 1000
 
 y = lambda x : 2*x+3
 train_x, test_x = [x for x in range(0, 20, 2)], [x for x in range(5, 15, 3)]
 train_y, test_y = [y(x) for x in train_x], [y(x) for x in test_x]
 
-print(f"Create simple dataset with train = {len(train_x)} and test = {len(test_x)}")
+print(f"Create simple dataset (y=2*x+3) with train = {len(train_x)} and test = {len(test_x)}")
 
 # creating model
 class Model(Module):
@@ -28,8 +28,14 @@ print(model)
 criterion = MSE()
 optimizer = GD(model.parameters(), lr=LR)
 
+def evaluate(model, criterion, X, Y):
+	outputs = [model([x]) for x in X]
+	loss = criterion(outputs, Y)
+
+	return loss.data/len(X)
+
+print("\nTraining starts here====")
 for i in range(EPOCHS):
-	total_loss = 0
 	for x, y in zip(train_x, train_y):
 		output = model([x])
 		loss = criterion(output, y)
@@ -38,6 +44,9 @@ for i in range(EPOCHS):
 		optimizer.step()
 		optimizer.zero_grad()
 
-		total_loss += loss.data
+	train_loss = evaluate(model, criterion, train_x, train_y)
+	test_loss = evaluate(model, criterion, test_x, test_y)
 
-	print(f"Epoch {i+1}: train loss = {total_loss/len(train_x)}")
+	print(f"Epoch {i+1}: train loss = {train_loss:.4f} test_loss = {test_loss:.4f}")
+
+print(f"Modeled equation = {model.neuron.weights[0].data:.3f} * x + {model.neuron.bias.data:.3f}")

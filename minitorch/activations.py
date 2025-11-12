@@ -59,7 +59,10 @@ class Sigmoid(Activation):
 		if isinstance(x, list):
 			return [Sigmoid()(v) for v in x]
 		
-		return 1/(1+exp(-x))
+		if x.data >= 0:
+			return 1/(1+exp(-x))
+		else:
+			return exp(-x)/(1+exp(-x))
 
 class Softmax(Activation):
 	def __init__(self, temperature=1.0):

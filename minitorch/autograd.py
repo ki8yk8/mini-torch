@@ -1,11 +1,11 @@
 class Value:
 	def __init__(self, data, _child=(), _op=""):
 		self.data = data
-		self._child = _child
+		self._child = set(_child)
 		self._op = _op
 		self._backward = lambda: None
 
-		self.grad = 0    # this is by default constant
+		self.grad = 0.0    # this is by default constant
 
 	def __mul__(self, other):
 		other = other if isinstance(other, Value) else Value(other)
@@ -61,8 +61,8 @@ class Value:
 		return self + other
 	
 	# means 1 - Value(10)
-	def __sub__(self, other):
-		return -self + other
+	def __rsub__(self, other):
+		return other - self
 	
 	def __rmul__(self, other):
 		return self * other

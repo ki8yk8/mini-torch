@@ -73,6 +73,24 @@ class Value:
 
 	def __repr__(self):
 		return f"Value({self.data:.4f}, grad={self.grad:.4f})"
+
+	def __eq__(self, other):
+		return self.data == other.data
+
+	def __ne__(self, other):
+		return self.data != other.data
+
+	def __lt__(self, other):
+		return self.data < other.data
+
+	def __le__(self, other):
+		return self.data <= other.data
+
+	def __gt__(self, other):
+		return self.data > other.data
+
+	def __ge__(self, other):
+		return self.data >= other.data
 	
 	def backward(self):
 		# topological ordering dfs

@@ -1,5 +1,6 @@
 from minitorch.nn import Module, Linear, Sequential
 from minitorch.activations import ReLU, Sigmoid, LogSoftmax
+from minitorch.optim import GD
 
 class Model(Module):
 	def __init__(self):
@@ -17,6 +18,7 @@ class Model(Module):
 
 model = Model()
 print(model)
+optimizer = GD(model.parameters(), lr=0.01)
 
 model.train()
 model.eval()

@@ -1,7 +1,4 @@
-class BaseOptimizer:
-	def zero_grad(self):
-		for params in self.parameters:
-			params.grad = 0
+from .baseoptimizer import BaseOptimizer
 
 class GD(BaseOptimizer):
 	def __init__(self, parameters, lr=0.1):

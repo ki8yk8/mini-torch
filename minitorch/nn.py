@@ -28,6 +28,13 @@ class Module:
 			state_dict[name] = params.data if weights_only else params
 
 		return state_dict
+
+	def load_state_dict(self, path):
+		with open(path, "rb") as fp:
+			state_dict = pkl.load(fp)
+
+		for name, param in self.named_parameters():
+			param.data = state_dict[name]
 	
 	def __setattr__(self, name, value):
 		if isinstance(value, Value):

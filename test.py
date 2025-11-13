@@ -1,6 +1,5 @@
 from minitorch.nn import Module, Linear, Sequential
 from minitorch.activations import ReLU, Sigmoid, LogSoftmax
-import minitorch
 
 class Model(Module):
 	def __init__(self):

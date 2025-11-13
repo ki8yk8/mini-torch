@@ -11,8 +11,8 @@ class RNN(Module):
 		self.hidden_size = hidden_size
 		self.num_layers = num_layers
 		
-		self.x2a = Linear(in_features=input_size, out_features=hidden_size, bias=bias)
-		self.h2a = Linear(in_features=hidden_size, out_features=hidden_size, bias=bias)
+		self.x2h_layers = [Linear(in_features=input_size if i == 0 else hidden_size, out_features=hidden_size, bias=bias) for i in num_layers]
+		self.h2h_layers = [Linear(in_features=hidden_size, out_features=hidden_size, bias=bias) for _ in num_layers]
 
 		# creating activation
 		match nonlinearity:
@@ -37,14 +37,21 @@ class RNN(Module):
 			raise ValueError(f"Initial hidden state mst be a list of length equal to hidden size, {len(hx)} != {self.hidden_size}")
 		
 		if not hx:
-			hx = [Value(random.random()) for _ in range(self.hidden_size)]
+			hx = [Value(random.random()) for _ in range(self.hidden_size) for i in self.num_layers]
 
-		all_hiddens = []
+		outputs = []
+		hxs = []
 		for x_t in input:
-			hx = self.x2a(x_t) + self.h2a(hx)
-			hx = self.activation(hx)
-			all_hiddens.append(hx)
+			hxs_t = []
+			for l_index in range(self.num_layers):
+				x_t = self.x2h_layers[l_index](x_t)
+				hx = x_t + self.h2h_layers[l_index](hx)
+				hxs_t.append(hx)
 
-		return all_hiddens, hx
+			hxs = [*hxs_t]
+			outputs.append(hx)
 
+		return outputs, hxs
+# all_hiddens = each timestamp, hidden state (t, hidden_size), unaffected by layers
+# hx = (num_layers, hidden_size) = (num_layers, final timestamp hidden state), 
 

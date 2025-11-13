@@ -1,4 +1,5 @@
-from ..nn import Module, Value
+from ..nn import Module
+from ..autograd import Value
 from ..helpers import add_indent
 from numbers import Number
 import math

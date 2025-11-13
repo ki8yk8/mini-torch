@@ -1,26 +1,4 @@
-from minitorch.nn import Module, Linear, Sequential
-from minitorch.activations import ReLU, Sigmoid, LogSoftmax
-from minitorch.optim import GD
-from minitorch.nn import CrossEntropy
+from minitorch.nn import RNN
 
-class Model(Module):
-	def __init__(self):
-		super().__init__()
-		self.linear = Linear(2, 4)
-		self.relu = ReLU()
-		self.sigmoid = Sigmoid()
-		self.logsoftmax = LogSoftmax(False)
-
-	def forward(self, X):
-		X = self.linear(X)
-		X = self.relu(X)
-	
-		return X
-
-model = Model()
+model = RNN(input_size=12, hidden_size=64, num_layers=1)
 print(model)
-optimizer = GD(model.parameters(), lr=0.01)
-
-model.train()
-model.eval()
-print(model.sigmoid.training)

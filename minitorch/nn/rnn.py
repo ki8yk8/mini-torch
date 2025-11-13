@@ -6,6 +6,7 @@ import random
 
 class RNN(Module):
 	def __init__(self, input_size, hidden_size, num_layers, nonlinearity="tanh", bias=True):
+		super().__init__()
 		self.input_size = input_size
 		self.hidden_size = hidden_size
 		self.num_layers = num_layers
@@ -26,21 +27,24 @@ class RNN(Module):
 
 
 	def forward(self, input, hx=None):
-		if not len(input) == self.input_size:
-			raise ValueError(f"Input must be a list of length equal to input size, {len(input)} != {self.input}")
+		if not isinstance(input, list) and not isinstance(input[0], list):
+			raise ValueError(f"Input should be a 2-d list. (timestep, input size)")
+		
+		if not len(input[0]) == self.input_size:
+			raise ValueError(f"Input must be a list of length equal to input size, {len(input[0])} != {self.input_size}")
 
 		if hx and not len(hx) == self.hidden_size:
 			raise ValueError(f"Initial hidden state mst be a list of length equal to hidden size, {len(hx)} != {self.hidden_size}")
 		
 		if not hx:
-			hx = [random.random() for _ in range(self.hidden_size)]
+			hx = [Value(random.random()) for _ in range(self.hidden_size)]
 
 		all_hiddens = []
-		for i in self.num_layers:
-			hx = self.x2a(input) + self.h2a(hx)
+		for x_t in input:
+			hx = self.x2a(x_t) + self.h2a(hx)
 			hx = self.activation(hx)
 			all_hiddens.append(hx)
 
-		return hx, all_hiddens
+		return all_hiddens, hx
 
 

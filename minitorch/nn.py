@@ -1,5 +1,6 @@
 import random
 from collections import OrderedDict
+import pickle as pkl
 
 from .autograd import Value
 from .helpers import add_indent
@@ -20,6 +21,13 @@ class Module:
 	def parameters(self):
 		for name, params in self.named_parameters():
 			yield params
+
+	def state_dict(self, weights_only=True):
+		state_dict = OrderedDict()
+		for name, params in self.named_parameters():
+			state_dict[name] = params.data if weights_only else params
+
+		return state_dict
 	
 	def __setattr__(self, name, value):
 		if isinstance(value, Value):

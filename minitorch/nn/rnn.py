@@ -33,25 +33,24 @@ class RNN(Module):
 		if not len(input[0]) == self.input_size:
 			raise ValueError(f"Input must be a list of length equal to input size, {len(input[0])} != {self.input_size}")
 
-		if hx and not len(hx) == self.hidden_size:
+		if hx and (
+			not len(hx) == self.num_layers or
+			not all([len(h) == self.hidden_size for h in hx])
+		):
 			raise ValueError(f"Initial hidden state mst be a list of length equal to hidden size, {len(hx)} != {self.hidden_size}")
 		
 		if not hx:
-			hx = [Value(random.random()) for _ in range(self.hidden_size) for i in self.num_layers]
+			hx = [[Value(random.random()) for _ in range(self.hidden_size)] for _ in range(self.num_layers)]
 
 		outputs = []
-		hxs = []
 		for x_t in input:
-			hxs_t = []
 			for l_index in range(self.num_layers):
 				x_t = self.x2h_layers[l_index](x_t)
-				hx = x_t + self.h2h_layers[l_index](hx)
-				hxs_t.append(hx)
+				hx[l_index] = self.activation(x_t + self.h2h_layers[l_index](hx[l_index]))
 
-			hxs = [*hxs_t]
-			outputs.append(hx)
+			outputs.append(hx[-1])
 
-		return outputs, hxs
+		return outputs, hx
 # all_hiddens = each timestamp, hidden state (t, hidden_size), unaffected by layers
 # hx = (num_layers, hidden_size) = (num_layers, final timestamp hidden state), 
 

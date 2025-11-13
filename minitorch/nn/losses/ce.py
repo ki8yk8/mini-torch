@@ -4,7 +4,7 @@ from .nll import NLL
 
 class CrossEntropy(Module):
 	def __init__(self):
-		super().__init()
+		super().__init__()
 		self.log_softmax = LogSoftmax(stability=True)
 
 	def forward(self, output, target):

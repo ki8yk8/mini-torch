@@ -6,8 +6,8 @@ class NLL(Module):
 		super().__init__()
 
 	def forward(self, output, target):
-		if not isinstance(output, list) or not isinstance(target, list):
-			raise ValueError(f"Both output and actual should be of type list")
+		if not isinstance(output, list):
+			raise ValueError(f"Output should be of type list")
 
 		if target > len(output) - 1:
 			raise Exception(f"The target {target} is out of bound")

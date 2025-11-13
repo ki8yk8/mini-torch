@@ -1,6 +1,7 @@
 from .autograd import Value
 from .math import exp, log
 from .nn import Module
+from .helpers import add_indent
 import math
 import numbers
 
@@ -35,7 +36,7 @@ class ReLU(Module):
 		super().__init__()
 
 	def get_repr(self, child):
-		return "ReLU()"
+		return add_indent("ReLU()", child)
 	
 	def forward(self, x):
 		x = sanitize(x)
@@ -56,7 +57,7 @@ class Sigmoid(Module):
 		super().__init__()
 
 	def get_repr(self, child=0):
-		return "Sigmoid()"
+		return add_indent("Sigmoid()", child)
 	
 	def forward(self, x):
 		x = self.sanitize(x)
@@ -74,8 +75,8 @@ class Softmax(Module):
 		super().__init__()
 		self.T = temperature
 
-	def get_repr(self, _):
-		return f"Softmax(temperature={self.T})"
+	def get_repr(self, child):
+		return add_indent(f"Softmax(temperature={self.T})", child)
 
 	def forward(self, x):
 		exponents = [exp(i/self.T) for i in x]
@@ -88,8 +89,8 @@ class LogSoftmax(Module):
 		super().__init__()
 		self.stability = stability
 
-	def get_repr(self, _):
-		return f"LogSoftmax(stability={self.stability})"
+	def get_repr(self, child):
+		return add_indent(f"LogSoftmax(stability={self.stability})", child)
 
 	def forward(self, X):
 		max_x = max(X) if self.stability else 0

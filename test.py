@@ -1,6 +1,7 @@
 from minitorch.nn import Module, Linear, Sequential
 from minitorch.activations import ReLU, Sigmoid, LogSoftmax
 from minitorch.optim import GD
+from minitorch.nn import CrossEntropy
 
 class Model(Module):
 	def __init__(self):

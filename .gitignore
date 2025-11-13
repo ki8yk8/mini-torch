@@ -2,3 +2,6 @@
 __pycache__/
 dataset/
 *.pth
+.pytest_cache/
+minitorch.egg-info/
+dist/

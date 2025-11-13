@@ -19,8 +19,6 @@ class Model(Module):
 model = Model()
 print(model)
 
-print(model.state_dict())
-
-model.load_state_dict("./state_dict.pth")
-
-print(model.state_dict())
+model.train()
+model.eval()
+print(model.sigmoid.training)

@@ -9,6 +9,17 @@ class Module:
 	def __init__(self):
 		self._parameters = OrderedDict()    # Value
 		self._modules = OrderedDict()       # Linear, Neuron
+		self.training = False
+
+	def eval(self):
+		self.training = False
+		for modules in self._modules.values():
+			modules.eval()
+
+	def train(self):
+		self.training = True
+		for modules in self._modules.values():
+			modules.train()
 
 	def named_parameters(self):
 		for name, param in self._parameters.items():

@@ -11,8 +11,8 @@ class RNN(Module):
 		self.hidden_size = hidden_size
 		self.num_layers = num_layers
 		
-		self.x2h_layers = [Linear(in_features=input_size if i == 0 else hidden_size, out_features=hidden_size, bias=bias) for i in num_layers]
-		self.h2h_layers = [Linear(in_features=hidden_size, out_features=hidden_size, bias=bias) for _ in num_layers]
+		self.x2h_layers = [Linear(in_features=input_size if i == 0 else hidden_size, out_features=hidden_size, bias=bias) for i in range(num_layers)]
+		self.h2h_layers = [Linear(in_features=hidden_size, out_features=hidden_size, bias=bias) for _ in range(num_layers)]
 
 		# creating activation
 		match nonlinearity:
@@ -46,11 +46,9 @@ class RNN(Module):
 		for x_t in input:
 			for l_index in range(self.num_layers):
 				x_t = self.x2h_layers[l_index](x_t)
-				hx[l_index] = self.activation(x_t + self.h2h_layers[l_index](hx[l_index]))
+				hx[l_index] = self.activation([x_t[i] + self.h2h_layers[l_index](hx[l_index])[i] for i in range(self.hidden_size)])
 
 			outputs.append(hx[-1])
 
 		return outputs, hx
-# all_hiddens = each timestamp, hidden state (t, hidden_size), unaffected by layers
-# hx = (num_layers, hidden_size) = (num_layers, final timestamp hidden state), 
 

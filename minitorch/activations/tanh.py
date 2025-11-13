@@ -22,7 +22,7 @@ class Tanh(Module):
 			raise ValueError(f"Tanh expects list, number, Value, got {type(x)}")
 
 		t = math.tanh(x.data)
-		result = Value(t, _child=(x), _op="tanh")
+		result = Value(t, _child=(x,), _op="tanh")
 
 		def _backward():
 			return 1-t*t

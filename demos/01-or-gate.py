@@ -28,4 +28,7 @@ for i in range(EPOCH):
 	losses.append(total_loss)
 
 plt.plot(range(EPOCH), losses)
+plt.xlabel("Loss")
+plt.ylabel("Epoch")
+plt.grid()
 plt.show()

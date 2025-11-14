@@ -49,6 +49,9 @@ for i in range(EPOCH):
 	losses.append(total_loss)
 
 plt.plot(range(EPOCH), losses)
+plt.xlabel("Loss")
+plt.ylabel("Epoch")
+plt.grid()
 plt.show()
 
 print(f"x1=0, x2=0 => {model([0, 0]).data > 0.5}")

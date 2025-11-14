@@ -81,3 +81,8 @@ See example at; `05-simple-polynomial.py`
 
 ## Demo Video
 Upload from GitHub
+
+## Screenshots
+![Activation functions](/pics/activation-functions.png)
+![Loss curve for simple polynomial function](/pics/loss-curve-simple-polynomial.png)
+![Loss curve for complex polynomial function](/pics/loss-curve-complex-polynomial.png)

@@ -1,9 +1,10 @@
 from minitorch.nn import Module, Neuron
 from minitorch.nn import MSE
 from minitorch.optim import GD
+import matplotlib.pyplot as plt
 
 LR = 0.001
-EPOCHS = 1000
+EPOCHS = 500
 
 y = lambda x : 2*x+3
 train_x, test_x = [x for x in range(0, 20, 2)], [x for x in range(5, 15, 3)]
@@ -34,11 +35,12 @@ def evaluate(model, criterion, X, Y):
 
 	return loss.data/len(X)
 
+train_losses, test_losses = [], []
 print("\nTraining starts here====")
 for i in range(EPOCHS):
 	for x, y in zip(train_x, train_y):
 		output = model([x])
-		loss = criterion(output, y)
+		loss = criterion([output], [y])
 		loss.backward()
 
 		optimizer.step()
@@ -46,7 +48,19 @@ for i in range(EPOCHS):
 
 	train_loss = evaluate(model, criterion, train_x, train_y)
 	test_loss = evaluate(model, criterion, test_x, test_y)
+	
+	train_losses.append(train_loss)
+	test_losses.append(test_loss)
 
 	print(f"Epoch {i+1}: train loss = {train_loss:.4f} test_loss = {test_loss:.4f}")
 
-print(f"Modeled equation = {model.neuron.weights[0].data:.3f} * x + {model.neuron.bias.data:.3f}")
+print(f"\nModeled equation = {model.neuron.weights[0].data:.3f} * x + {model.neuron.bias.data:.3f}")
+
+plt.plot(range(EPOCHS), train_losses, label="Train")
+plt.plot(range(EPOCHS), test_losses, label="Test")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.title("Change of loss with epoch")
+plt.legend()
+plt.grid()
+plt.show()

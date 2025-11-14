@@ -1,6 +1,7 @@
 from minitorch.nn import Module, Linear, Neuron
 from minitorch.nn import MSE
 from minitorch.optim import GD
+import matplotlib.pyplot as plt
 
 import random
 
@@ -35,7 +36,7 @@ class Model(Module):
 	def forward(self, X):
 		x = self.linear(X)
 
-		return x[0]
+		return x
 
 model = Model()
 print(model)
@@ -47,15 +48,16 @@ def evaluate(model, criterion, dataset):
 	total_loss = 0
 	for X, y in dataset:
 		output = model(X)
-		total_loss += criterion(output, y)
+		total_loss += criterion(output, [y])
 
 	return total_loss.data/len(dataset)
 
+train_losses, test_losses = [], []
 print("\nTraining starts here====")
 for i in range(EPOCHS):
 	for x, y in train_dataset:
 		output = model(x)
-		loss = criterion(output, y)
+		loss = criterion(output, [y])
 		loss.backward()
 
 		optimizer.step()
@@ -63,5 +65,17 @@ for i in range(EPOCHS):
 
 	train_loss = evaluate(model, criterion, train_dataset)
 	test_loss = evaluate(model, criterion, test_dataset)
+	
+	train_losses.append(train_loss)
+	test_losses.append(test_loss)
 
 	print(f"Epoch {i+1}: train loss = {train_loss:.4f} test_loss = {test_loss:.4f}")
+
+plt.plot(range(EPOCHS), train_losses, label="Train")
+plt.plot(range(EPOCHS), test_losses, label="Test")
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.title("Change of loss with epoch")
+plt.legend()
+plt.grid()
+plt.show()

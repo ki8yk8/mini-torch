@@ -1,6 +1,6 @@
 from .module import Module
 from .linear import Linear
-from ..activations import Tanh, ReLU, Sigmoid
+from .activations import Tanh, ReLU, Sigmoid
 from ..autograd import Value
 import random
 

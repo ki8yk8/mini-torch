@@ -1,5 +1,5 @@
-from minitorch.autograd import Value
-from minitorch.activations import ReLU
+from minitorch import Value
+from minitorch.nn.activations import ReLU
 from minitorch.nn import Module, Linear, Neuron
 from minitorch.optim import GD
 
@@ -29,6 +29,7 @@ class Model(Module):
 		return op
 
 model = Model()
+print(model)
 optimizer = GD(model.parameters(), lr=LR)
 
 losses = []

@@ -1,6 +1,6 @@
-from ..nn import Module
-from ..helpers import add_indent
-from ..math import exp, log
+from ..module import Module
+from ...helpers import add_indent
+from ...math import exp, log
 
 class LogSoftmax(Module):
 	def __init__(self, stability=True):

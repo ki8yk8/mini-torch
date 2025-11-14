@@ -1,7 +1,7 @@
-from ..nn import Module
-from ..autograd import Value
-from ..helpers import add_indent
-from ..math import exp
+from ..module import Module
+from ...autograd import Value
+from ...helpers import add_indent
+from ...math import exp
 from numbers import Number
 
 class Sigmoid(Module):

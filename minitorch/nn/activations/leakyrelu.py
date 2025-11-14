@@ -1,6 +1,6 @@
-from ..nn import Module
-from ..autograd import Value
-from ..helpers import add_indent
+from ..module import Module
+from ...autograd import Value
+from ...helpers import add_indent
 import numbers
 
 class LeakyReLU(Module):

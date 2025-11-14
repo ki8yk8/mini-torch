@@ -1,6 +1,6 @@
-from ..nn import Module
-from ..math import exp
-from ..helpers import add_indent
+from ..module import Module
+from ...math import exp
+from ...helpers import add_indent
 
 class Softmax(Module):
 	def __init__(self, temperature=1.0):

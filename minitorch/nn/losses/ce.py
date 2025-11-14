@@ -1,5 +1,5 @@
 from ..module import Module
-from ...activations import LogSoftmax
+from ..activations import LogSoftmax
 from .nll import NLL
 
 class CrossEntropy(Module):

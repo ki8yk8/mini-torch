@@ -1,7 +1,7 @@
 """Implements training on MNIST dataset using minitorch"""
 import pandas as pd
 from minitorch.nn import Linear, Module
-from minitorch.activations import Sigmoid
+from minitorch.nn.activations import Sigmoid
 from minitorch.nn import CrossEntropy
 from minitorch.optim import GD
 

@@ -1,4 +1,4 @@
-from minitorch.losses import MSE
+from minitorch.optim import MSE
 from minitorch.autograd import Value
 
 criterion = MSE()

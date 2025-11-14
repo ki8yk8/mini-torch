@@ -1,5 +1,5 @@
-from minitorch.nn import Linear, Neuron
-from minitorch.optimizers import GD
+from minitorch.nn import Linear
+from minitorch.optim import GD
 import matplotlib.pyplot as plt
 
 inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]

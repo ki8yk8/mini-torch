@@ -2,8 +2,8 @@
 import pandas as pd
 from minitorch.nn import Linear, Module
 from minitorch.activations import Sigmoid
-from minitorch.losses import CrossEntropy
-from minitorch.optimizers import GD
+from minitorch.nn import CrossEntropy
+from minitorch.optim import GD
 
 # hyperparameters
 LR = 0.1

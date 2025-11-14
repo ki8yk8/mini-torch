@@ -1,6 +1,6 @@
 from minitorch.nn import Module, Linear, Neuron
-from minitorch.losses import MSE
-from minitorch.optimizers import GD
+from minitorch.nn import MSE
+from minitorch.optim import GD
 
 import random
 

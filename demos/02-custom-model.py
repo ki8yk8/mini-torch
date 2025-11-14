@@ -1,7 +1,7 @@
 from minitorch.autograd import Value
 from minitorch.activations import ReLU
 from minitorch.nn import Module, Linear, Neuron
-from minitorch.optimizers import GD
+from minitorch.optim import GD
 
 import matplotlib.pyplot as plt
 

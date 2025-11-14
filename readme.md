@@ -5,6 +5,7 @@ Minitorch is a way of me learning about autograd and creating a pytorch like lib
 1. Imports like Pytorch,
 2. Implements basic functions like backpropagation, gradient descent, neurons, linear layers
 3. Extensible with suport of custom modules like Python
+4. You can save the model weights and load the earlier model weights too
 
 ## Remaining Task
 1. Vectorization

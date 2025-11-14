@@ -2,6 +2,7 @@ from minitorch.nn import Module, Neuron
 from minitorch.nn import MSE
 from minitorch.optim import GD
 import matplotlib.pyplot as plt
+import pickle
 
 LR = 0.001
 EPOCHS = 500
@@ -64,3 +65,7 @@ plt.title("Change of loss with epoch")
 plt.legend()
 plt.grid()
 plt.show()
+
+# saving the model
+with open("demos/assets/simple-poly.pth", "wb") as fp:
+	pickle.dump(model.state_dict(), fp)

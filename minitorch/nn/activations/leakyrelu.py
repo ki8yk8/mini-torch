@@ -15,6 +15,8 @@ class LeakyReLU(Module):
 			X = [X]
 		elif isinstance(X, numbers.Number):
 			X = [Value(X)]
+		elif isinstance(X, list):
+			pass
 		else:
 			raise ValueError(f"LeakyReLU only accepts type Value, or Number or list of either, got {type(X)}")
 		

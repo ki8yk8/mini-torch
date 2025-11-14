@@ -18,12 +18,13 @@ class Model(Module):
 		self.linear2 = Linear(in_features=4, out_features=2, bias=True)
 		self.neuron = Neuron(in_features=2, bias=True)
 		self.bias = Value(0)
+		self.relu = ReLU()
 
 	def forward(self, x):
 		op = self.linear1(x)
-		op = ReLU(op)
+		op = self.relu(op)
 		op = self.linear2(op)
-		op = self.neuron(op)
+		op = self.neuron(op)[0]
 		op += self.bias
 
 		return op

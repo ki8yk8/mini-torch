@@ -14,6 +14,19 @@ Minitorch is a way of me learning about autograd and creating a pytorch like lib
 I am working on theory of Jacobian Matrix and it's use for computing derivatives in a vector. So, will do this in V2.
 
 ## Usage
+1. Install the necessary packages using
+```bash
+pip install -r requirements.txt
+```
+
+2. Run the individual demo using
+```bash
+python demos/00-autograd.py
+```
+
+## Development Usage
+Use this if only you are planning to update the package. do not use this to run the demo.
+
 ### Installation
 1. Install all the necessary requirements using;
 ```bash

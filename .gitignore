@@ -5,3 +5,4 @@ dataset/
 .pytest_cache/
 minitorch.egg-info/
 dist/
+.pip-package/

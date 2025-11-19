@@ -3,6 +3,10 @@ from minitorch.nn.activations import ReLU
 from minitorch.nn import Module, Linear, Neuron
 from minitorch.optim import GD
 
+import matplotlib
+import PyQt6
+matplotlib.use("qtagg")
+
 import matplotlib.pyplot as plt
 
 # xor gate

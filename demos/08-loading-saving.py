@@ -1,5 +1,9 @@
 from minitorch.nn import Module, Neuron
 from minitorch.nn import MSE
+import matplotlib
+import PyQt6
+matplotlib.use("qtagg")
+
 import matplotlib.pyplot as plt
 import pickle
 

@@ -1,5 +1,9 @@
 from minitorch import Value
 from minitorch.nn.activations import Sigmoid, Tanh, ReLU, LeakyReLU
+import matplotlib
+import PyQt6
+matplotlib.use("qtagg")
+
 import matplotlib.pyplot as plt
 
 def linspace(start, end, targets):

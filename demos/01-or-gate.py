@@ -1,5 +1,10 @@
 from minitorch.nn import Linear
 from minitorch.optim import GD
+
+import matplotlib
+import PyQt6
+matplotlib.use("qtagg")
+
 import matplotlib.pyplot as plt
 
 inputs = [[0, 0], [0, 1], [1, 0], [1, 1]]

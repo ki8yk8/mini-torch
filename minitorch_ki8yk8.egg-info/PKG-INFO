@@ -1,12 +1,13 @@
 Metadata-Version: 2.4
 Name: minitorch-ki8yk8
-Version: 1.0.1
+Version: 1.0.2
 Summary: Implementing minimal Pytorch for Learning
 Author: KI8YK8
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
 Requires-Dist: matplotlib>=3.9.0
 Requires-Dist: numpy>=2.0.0
+Requires-Dist: pyqt6
 Dynamic: author
 Dynamic: description
 Dynamic: description-content-type
